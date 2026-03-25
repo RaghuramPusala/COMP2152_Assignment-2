@@ -211,4 +211,4 @@ if __name__ == "__main__":
 # One feature I would add is filtering ports by service type using a list comprehension.
 # For example, users could choose to display only HTTP-related ports.
 # This would improve usability by allowing targeted scanning results.
-# Diagram: See diagram_101577633.png in the repository root
+# diagram: See diagram_101577633.png in the repository root
