@@ -18,10 +18,12 @@ class TestPortScanner(unittest.TestCase):
         ]
         open_ports = scanner.get_open_ports()
         self.assertEqual(len(open_ports), 2)
+        
 
     def test_common_ports_dict(self):
         self.assertEqual(common_ports[80], "HTTP")
         self.assertEqual(common_ports[22], "SSH")
+
 
     def test_invalid_target(self):
         scanner = PortScanner("127.0.0.1")

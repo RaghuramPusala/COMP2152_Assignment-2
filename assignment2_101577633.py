@@ -15,6 +15,7 @@ print("Python Version:", platform.python_version())
 print("Operating System:", os.name)
 
 # Dictionary storing common port numbers and their services
+
 common_ports = {
     21: "FTP",
     22: "SSH",
@@ -40,6 +41,7 @@ class NetworkTool:
     # The setter allows validation before assigning values.
     # This prevents invalid data like empty strings.
     # It also improves encapsulation and clean design.
+
     @property
     def target(self):
         return self.__target
@@ -51,6 +53,7 @@ class NetworkTool:
         else:
             self.__target = value
 
+
     def __del__(self):
         print("NetworkTool instance destroyed")
 
@@ -60,17 +63,20 @@ class NetworkTool:
 # It reuses the constructor and target property instead of redefining them.
 # For example, super().__init__(target) initializes the target variable.
 # This reduces code duplication and improves reusability.
+
 class PortScanner(NetworkTool):
     def __init__(self, target):
         super().__init__(target)
         self.scan_results = []
         self.lock = threading.Lock()
 
+
     def __del__(self):
         print("PortScanner instance destroyed")
         super().__del__()
 
     def scan_port(self, port):
+
         # Q4: What would happen without try-except here?
         # Without try-except, the program could crash when a port is unreachable.
         # Network errors would stop the scanning process completely.
@@ -91,6 +97,7 @@ class PortScanner(NetworkTool):
         except socket.error as e:
             print(f"Error scanning port {port}: {e}")
 
+
         finally:
             sock.close()
 
@@ -102,6 +109,7 @@ class PortScanner(NetworkTool):
     # Without threading, scanning 1024 ports would take a long time.
     # Sequential scanning would be slow because each port waits for timeout.
     # Threading improves performance and speeds up scanning significantly.
+
     def scan_range(self, start_port, end_port):
         threads = []
 
@@ -117,6 +125,7 @@ class PortScanner(NetworkTool):
 
 
 def save_results(target, results):
+
     try:
         conn = sqlite3.connect("scan_history.db")
         cursor = conn.cursor()
@@ -132,6 +141,7 @@ def save_results(target, results):
         )
         """)
 
+
         for port, status, service in results:
             cursor.execute(
                 "INSERT INTO scans (target, port, status, service, scan_date) VALUES (?, ?, ?, ?, ?)",
@@ -141,8 +151,10 @@ def save_results(target, results):
         conn.commit()
         conn.close()
 
+
     except sqlite3.Error as e:
         print("Database error:", e)
+
 
 
 def load_past_scans():
@@ -165,6 +177,7 @@ def load_past_scans():
 # ============================================================
 # MAIN PROGRAM
 # ============================================================
+
 if __name__ == "__main__":
     try:
         target = input("Enter target IP (default 127.0.0.1): ")
